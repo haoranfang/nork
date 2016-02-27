@@ -4,7 +4,7 @@
   "description": "nork document using client server style",
   "main": "index.js",
   "scripts": {
-    "start":"node server.js &; node client.js",
+    "start":"node server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "sijin Chen",
