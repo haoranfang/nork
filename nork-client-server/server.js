@@ -16,9 +16,6 @@ server.on('listening', function() {
    console.log('server listening on port %d', addr.port);
 });
 
-server.listen(3000, '127.0.0.1'); //listen on port 3000
-console.log('server connected'); //clarify connection
-
 server.on('connection', function(socket) {
    //send a message to the socket
    socket.write('Welcome!\n' + world.rooms[0].id + world.rooms[0].description);
@@ -40,6 +37,10 @@ server.on('connection', function(socket) {
     }
   });
 });
+
+
+server.listen(3000, '127.0.0.1'); //listen on port 3000
+console.log('server connected'); //clarify connection
 
 
 
