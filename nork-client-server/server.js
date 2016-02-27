@@ -62,7 +62,7 @@ var entrance = function(echo){
   } else if (echo.includes('go')) {
     if(echo.includes('north')) {
       CurrentRoom = world.rooms[1];
-      socket.write(world.room[1].description);
+      socket.write(world.rooms[1].description);
     }else{
       socket.write('Please try again');
     }
@@ -80,16 +80,16 @@ var dark_cave = function(echo){
       if(echo.includes(item) && InventoryOwn(item) === true){
         world.rooms[1].uses[0].effect.consumed == true;
         CurrentRoom = world.rooms[2];
-        socket.write(world.rooms[1].uses[0].description + world.room[2].description);
+        socket.write(world.rooms[1].uses[0].description + world.rooms[2].description);
       }
   } else if (echo.includes('go')) {
     if(echo.includes('north') || echo.includes('east')||echo.includes('west')) {
       CurrentRoom = world.rooms[4];
-      socket.write(world.room[4].description);
+      socket.write(world.rooms[4].description);
       socket.end();
     }else if (echo.includes('south')){
       CurrentRoom = world.rooms[0];
-      socket.write(world.room[0].description);
+      socket.write(world.rooms[0].description);
     } else{
       socket.write('Please try again');
     }
@@ -105,10 +105,10 @@ var lit_cave = function(echo){
   } else if (echo.includes('go')) {
     if(echo.includes('south')) {
       CurrentRoom = world.rooms[0];
-      socket.write(world.room[0].description);
+      socket.write(world.rooms[0].description);
     } else if (echo.includes('west')){
       CurrentRoom = world.rooms[3];
-      socket.write(world.room[3].description);
+      socket.write(world.rooms[3].description);
     } else{
       socket.write('Please try again');
     }
@@ -128,10 +128,10 @@ var treasure_room = function(echo){
   } else if (echo.includes('go')) {
     if(echo.includes('south')) {
       CurrentRoom = world.rooms[0];
-      socket.write(world.room[0].description);
+      socket.write(world.rooms[0].description);
     } else if (echo.includes('east')){
       CurrentRoom = world.rooms[1];
-      socket.write(world.room[1].description);
+      socket.write(world.rooms[1].description);
     } else{
       socket.write('Please try again');
     }
