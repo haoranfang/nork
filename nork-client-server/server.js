@@ -49,7 +49,11 @@ console.log('server connected'); //clarify connection
 var entrance = function(echo, socket){
   if(echo.includes('take')) {
       if(world.rooms[0].items != null && InventoryAdded(0) === true){
-          inventory.push(world.rooms[0].items[0]);
+          var items = world.rooms[0].items[0];
+          inventory.push(items);
+          socket.write('You picked up ' + items);
+      } else {
+          socket.write('Nothing to take...');
       }
   } else if (echo.includes('inventory')) {
     socket.write(inventory);
@@ -123,7 +127,9 @@ var lit_cave = function(echo, socket){
 var treasure_room = function(echo, socket){
   if(echo.includes('take')) {
       if(world.rooms[3].items != null && InventoryAdded(3) === true){
-          inventory.push(world.rooms[3].items[0]);
+          var items = world.rooms[3].items[0];
+          inventory.push(items);
+          socket.write('You picked up ' + items);
       }
   } else if (echo.includes('inventory')) {
     socket.write(inventory);  
@@ -146,7 +152,7 @@ var treasure_room = function(echo, socket){
 
 //Test if the item is already added to the inventory
 var InventoryAdded = function(room){
-      for(var i = 0; i <= inventory.length(); i++){
+      for(var i = 0; i <= inventory.length; i++){
         if (inventory[i]==world.rooms[room].items[0]) {
           return false;
         }
@@ -156,7 +162,7 @@ var InventoryAdded = function(room){
 
 //Test if the item user is trying to use is inside user's inventory
 var InventoryOwn = function(item){
-      for(var i =0; i <= inventory.length(); i++){
+      for(var i =0; i <= inventory.length; i++){
         if (inventory[i]==item) {
           return true;
         }
@@ -166,7 +172,7 @@ var InventoryOwn = function(item){
 
 //Remove the consumed inventory from the inventory list
 var RemoveFromInventory = function(item){
-    for(var i =0; i < inventory.length(); i++){
+    for(var i =0; i < inventory.length; i++){
       if (inventory[i]==item) {
         inventory[i+1]=inventory[i+2];
       }
