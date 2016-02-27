@@ -1,0 +1,14 @@
+{
+  "name": "nork-client-server",
+  "version": "1.0.0",
+  "description": "nork document using client server style",
+  "main": "index.js",
+  "scripts": {
+    "start":"node server.js &; node client.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "sijin Chen",
+  "license": "ISC"
+}
+
+  

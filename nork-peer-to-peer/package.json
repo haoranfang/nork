@@ -1,0 +1,12 @@
+{
+  "name": "ls",
+  "version": "1.0.0",
+  "description": "C",
+  "main": "index.js",
+  "scripts": {
+    "start":"node server3000.js &; node client.js &; node server3001.js &; node server3002.js &; node server3003.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "sijin Chen",
+  "license": "ISC"
+}
