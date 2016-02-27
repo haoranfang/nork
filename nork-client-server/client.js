@@ -1,7 +1,7 @@
 'use strict';
 var net = require('net'); //import socket module
 var readline = require('readline');
-var world = require('./common/world.json');// load information about my world (the rooms, and also items) from an external JSON file
+var world = require('../common/world.json');// load information about my world (the rooms, and also items) from an external JSON file
 var io = readline.createInterface({ //call the interface "io"
   input: process.stdin, //input comes from the terminal ("standard in")
   output: process.stdout //output goes to the terminal ("standard out")
