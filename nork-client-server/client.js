@@ -25,6 +25,7 @@ client.on('data', function(data) { //when we get data
 		io.close();
 		client.destroy(); // end connection
    } else{
+        console.log(data.toString());
    		io.question('What would you like to do?', question);
    }
 });

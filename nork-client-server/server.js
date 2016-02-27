@@ -1,12 +1,30 @@
 'use strict';
 var net = require('net'); //import socket module
-var server = net.createServer(); //create socket server
 var world = require('../common/world.json');// load information about my world (the rooms, and also items) from an external JSON file
 var inventory = [];
 var echo;
 var CurrentRoom = world.rooms[0];
 var status;
 //notify (via observer!) when a a connection occurs
+var server = net.createServer(function(socket) {
+
+  //notify on data received event
+  socket.on('data', function(data) {
+    echo = data.toString().toLowerCase();
+     //process data
+    if(CurrentRoom == world.rooms[0]) {
+      entrance(echo, socket);
+    } else if (CurrentRoom == world.rooms[1]){
+      dark_cave(echo, socket);
+    } else if (CurrentRoom == world.rooms[2]){
+      lit_cave(echo, socket);
+    } else if (CurrentRoom == world.rooms[3]){
+      treasure_room(echo, socket);
+    } else {
+      //socket.end();
+    }
+  });
+}); //create socket server
 
 //when we start "listening" for connections
 server.on('listening', function() {
@@ -18,24 +36,7 @@ server.on('listening', function() {
 
 server.on('connection', function(socket) {
    //send a message to the socket
-   socket.write('Welcome!\n' + world.rooms[0].id + world.rooms[0].description);
-
-  //notify on data received event
-  socket.on('data', function(data) {
-    echo = data.toString().toLowerCase();
-     //process data
-    if(CurrentRoom == world.rooms[0]) {
-      entrance(echo);
-    } else if (CurrentRoom == world.rooms[1]){
-      dark_cave(echo);
-    } else if (CurrentRoom == world.rooms[2]){
-      lit_cave(echo);
-    } else if (CurrentRoom == world.rooms[3]){
-      treasure_room(echo);
-    } else {
-      socket.end();
-    }
-  });
+   socket.write('Location: ' + world.rooms[0].id + '\nWelcome! ' + world.rooms[0].description);
 });
 
 
@@ -45,7 +46,7 @@ console.log('server connected'); //clarify connection
 
 
 //first room
-var entrance = function(echo){
+var entrance = function(echo, socket){
   if(echo.includes('take')) {
       if(world.rooms[0].items != null && InventoryAdded(0) === true){
           inventory.push(world.rooms[0].items[0]);
@@ -73,7 +74,7 @@ var entrance = function(echo){
 }
 
 //second room
-var dark_cave = function(echo){
+var dark_cave = function(echo, socket){
   if (echo.includes('inventory')) {
     socket.write(inventory);  
   } else if (echo.includes('use')){
@@ -100,7 +101,7 @@ var dark_cave = function(echo){
 }
 
 //third room
-var lit_cave = function(echo){
+var lit_cave = function(echo, socket){
   if (echo.includes('inventory')) {
     socket.write(inventory);  
   } else if (echo.includes('go')) {
@@ -119,7 +120,7 @@ var lit_cave = function(echo){
 }
 
 //fourth room
-var treasure_room = function(echo){
+var treasure_room = function(echo, socket){
   if(echo.includes('take')) {
       if(world.rooms[3].items != null && InventoryAdded(3) === true){
           inventory.push(world.rooms[3].items[0]);
