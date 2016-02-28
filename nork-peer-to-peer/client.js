@@ -1,42 +1,44 @@
 'use strict';
-
-var world = require('./common/world.json');// load information about my world (the rooms, and also items) from an external JSON file
-var inventory = [];
-var echo = data.toString().toLowerCase();
-var CurrentRoom = world.rooms[0];
-
+var net = require('net'); //import socket module
+var readline = require('readline');
+var world = require('../common/world.json');// load information about my world (the rooms, and also items) from an external JSON file
+var io = readline.createInterface({ //call the interface "io"
+  input: process.stdin, //input comes from the terminal ("standard in")
+  output: process.stdout //output goes to the terminal ("standard out")
+});
+var status; // record final result
 //make the client
 var client = new net.Socket();
 
+
+var HOST = '127.0.0.1';
+var PORT = 3000;
+
+//connect to the server
+client.connect(PORT, HOST, function() {
+   console.log('Connected to: ' + HOST + ':' + PORT);
+   //send message to server
+});
+
 client.on('data', function(data) { //when we get data
-   console.log("Received: "+data); //output it
+   if (status === "won" || status === "lost"){
+    io.close();
+    client.destroy(); // end connection
+   } else{
+        console.log(data.toString());
+      io.question('What would you like to do?', question);
+   }
 });
 
 client.on('close', function() { //when connection closed
    console.log('Connection closed');
 });
 
-
-var HOST = '127.0.0.1';
-var PORT;
-if(CurrentRoom == world.rooms[0]) {
-PORT = 3000;
-} else if (CurrentRoom == world.rooms[1]){
-PORT = 3001;
-} else if (CurrentRoom == world.rooms[2]){
-PORT = 3002;
-} else if (CurrentRoom == world.rooms[3]){
-PORT = 3003;
-} else {
-socket.end();
+var question = function(answer) {
+  client.write(answer);
 }
-//connect to the server
-client.connect(PORT, HOST, function() {
-   console.log('Connected to: ' + HOST + ':' + PORT);
 
-   //send message to server
-   client.write("Hello server, I'm the client!");
-});
+
 
 
 
