@@ -56,7 +56,7 @@ var entrance = function(echo, socket){
           socket.write('Nothing to take...');
       }
   } else if (echo.includes('inventory')) {
-    socket.write(inventory);
+    socket.write(inventory.toString());
   } else if (echo.includes('use')){
       var item = world.rooms[0].uses[0].item;
       if(echo.includes(item) && InventoryOwn(item) === true){
@@ -80,7 +80,7 @@ var entrance = function(echo, socket){
 //second room
 var dark_cave = function(echo, socket){
   if (echo.includes('inventory')) {
-    socket.write(inventory);  
+    socket.write(inventory.toString());
   } else if (echo.includes('use')){
       var item = world.rooms[1].uses[0].item;
       if(echo.includes(item) && InventoryOwn(item) === true){
@@ -107,7 +107,7 @@ var dark_cave = function(echo, socket){
 //third room
 var lit_cave = function(echo, socket){
   if (echo.includes('inventory')) {
-    socket.write(inventory);  
+    socket.write(inventory.toString());
   } else if (echo.includes('go')) {
     if(echo.includes('south')) {
       CurrentRoom = world.rooms[0];
@@ -132,7 +132,7 @@ var treasure_room = function(echo, socket){
           socket.write('You picked up ' + items);
       }
   } else if (echo.includes('inventory')) {
-    socket.write(inventory);  
+    socket.write(inventory.toString());
   } else if (echo.includes('go')) {
     if(echo.includes('south')) {
       CurrentRoom = world.rooms[0];
