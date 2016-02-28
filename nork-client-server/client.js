@@ -6,7 +6,6 @@ var io = readline.createInterface({ //call the interface "io"
   input: process.stdin, //input comes from the terminal ("standard in")
   output: process.stdout //output goes to the terminal ("standard out")
 });
-var status; // record final result
 //make the client
 var client = new net.Socket();
 
@@ -21,7 +20,7 @@ client.connect(PORT, HOST, function() {
 });
 
 client.on('data', function(data) { //when we get data
-   if (status === "won" || status === "lost"){
+   if (data.toString() === "won" || data.toString() === "lost"){
 		io.close();
 		client.destroy(); // end connection
    } else{

@@ -37,6 +37,10 @@ server.on('listening', function() {
 server.on('connection', function(socket) {
    //send a message to the socket
    socket.write('Location: ' + world.rooms[0].id + '\nWelcome! ' + world.rooms[0].description);
+   // Refresh, otherwise the server has to restart for a new game,
+   // because the variables are server globle
+   inventory = []
+   CurrentRoom = world.rooms[0];
 });
 
 
@@ -63,7 +67,9 @@ var entrance = function(echo, socket){
         world.rooms[0].uses[0].effect.consumed == true;
         RemoveFromInventory(item);  //remove the item from the invenotry list
         socket.write(world.rooms[0].uses[0].description + world.rooms[5].description);
-        socket.end();   
+        socket.write(world.rooms[5].status);
+      } else {
+        socket.write('Nothing to use...');
       }
   } else if (echo.includes('go')) {
     if(echo.includes('north')) {
@@ -80,19 +86,22 @@ var entrance = function(echo, socket){
 //second room
 var dark_cave = function(echo, socket){
   if (echo.includes('inventory')) {
-    socket.write(inventory.toString());
+    socket.write('Your inventory: ' + inventory.toString());
   } else if (echo.includes('use')){
       var item = world.rooms[1].uses[0].item;
+      console.log(item);
       if(echo.includes(item) && InventoryOwn(item) === true){
         world.rooms[1].uses[0].effect.consumed == true;
         CurrentRoom = world.rooms[2];
         socket.write(world.rooms[1].uses[0].description + world.rooms[2].description);
+      } else {
+        socket.write('Nothing to use...');
       }
   } else if (echo.includes('go')) {
     if(echo.includes('north') || echo.includes('east')||echo.includes('west')) {
       CurrentRoom = world.rooms[4];
       socket.write(world.rooms[4].description);
-      socket.end();
+      socket.write(world.rooms[4].status);
     }else if (echo.includes('south')){
       CurrentRoom = world.rooms[0];
       socket.write(world.rooms[0].description);
