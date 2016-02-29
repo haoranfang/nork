@@ -22,10 +22,10 @@ client.connect(PORT, HOST, function() {
 
 client.on('data', function(data) { //when we get data
    if (status === "won" || status === "lost"){
-    io.close();
-    client.destroy(); // end connection
+      io.close();
+      client.destroy(); // end connection
    } else{
-        console.log(data.toString());
+      console.log(data.toString());
       io.question('What would you like to do?', question);
    }
 });
